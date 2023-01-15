@@ -6,6 +6,7 @@ var initState = {
     title:'WEB',
     desc:'Hello, WEB'
   },
+  max_content_id: 3,
   selected_content_id: 1,
   contents: [
     {id: 1, title: 'HTML', desc: 'HTML is ...'},
@@ -15,13 +16,27 @@ var initState = {
 };
 
 const reducer = (state=initState, action) => {
-  if (action.type === 'CHANGE_MODE') {
-    return Object.assign({}, state, {mode: action.mode});
+  switch (action.type) {
+    case 'CHANGE_MODE':
+      return Object.assign({}, state, {mode: action.mode});
+    case 'SELECT':
+      return {...state, selected_content_id: action.id, mode: "READ"};
+    case 'CREATE':
+      const newContentId = state.max_content_id + 1;
+      const newContent = {
+        id: state.max_content_id + 1,
+        title: action.title,
+        desc: action.desc
+      };
+      return Object.assign({}, state, {
+        mode: "READ",
+        selected_content_id: newContentId,
+        max_id: newContentId,
+        contents: [...state.contents, newContent]
+      });
+    default:
+      return state;
   }
-  if (action.type === 'SELECT') {
-    return {...state, selected_content_id: action.id, mode: "READ"};
-  }
-  return state;
 }
 
 export default createStore(

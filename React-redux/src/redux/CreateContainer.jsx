@@ -1,4 +1,4 @@
-import Control from "../components/Control.jsx";
+import Create from "../components/Create";
 import { connect } from "react-redux";
 
 export default connect(
@@ -7,7 +7,7 @@ export default connect(
   },
   function mapDispatchToProps(dispatch, ownProps) {
     return {
-      changeMode: (mode) => dispatch({type:'CHANGE_MODE', mode})
+      create: (title, desc) => dispatch({type: "CREATE", title, desc}) 
     };
   }
-)(Control);
+)(Create);

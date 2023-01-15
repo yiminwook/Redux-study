@@ -1,4 +1,4 @@
-import Article from "../components/Article";
+import Read from "../components/Read.jsx";
 import { connect } from "react-redux";
 
 export default connect(
@@ -17,4 +17,4 @@ export default connect(
   function mapDispatchToProps(dispatch, ownProps) {
     return {};
   }
-)(Article);
+)(Read);

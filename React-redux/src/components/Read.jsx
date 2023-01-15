@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class Article extends Component {
+class Read extends Component {
   constructor(props){
     super(props)
     this.state = {};
@@ -18,4 +18,4 @@ class Article extends Component {
   }
 }
 
-export default Article;
+export default Read;

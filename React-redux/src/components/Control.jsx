@@ -7,7 +7,6 @@ class Control extends Component {
     this.state = {};
   }
   render() {
-    console.log(this.props)
     return (
       <ul>
         <li><Link to="#create" onClick={() => this.props.changeMode("CREATE")}>Create</Link></li>
