@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './components/Header.jsx';
 import Nav from './redux/NavContainer';
-import Article from './components/Article.jsx';
+import Article from './redux/ArticleContainer';
 import './App.css';
 
 function App() {

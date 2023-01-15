@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../redux/connect";
 
 const Header = (props) => {
-  console.log(props)
   return (
     <>
       <header>

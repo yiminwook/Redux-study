@@ -8,8 +8,7 @@ class Nav extends Component {
   }
   render(){
     const { contents } = this.props;
-    console.log("this.props", this.props);
-    // console.log(this.state)
+
     return (
       <>
         <nav>
