@@ -1,14 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
+import { mapStateToProps, mapDispatchToProps } from "../redux/connect";
 
-const Header = () => {
+const Header = (props) => {
+  console.log(props)
   return (
     <>
       <header>
-        <h1>WEB</h1>
+        <h1><a href="#welcome" onClick={() => props.changeMode("WELCOME")}>WEB</a></h1>
         World Wide WEB
       </header>
     </>
   )
 }
 
-export default Header;
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
