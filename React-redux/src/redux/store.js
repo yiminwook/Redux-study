@@ -19,7 +19,6 @@ const reducer = (state=initState, action) => {
     return Object.assign({}, state, {mode: action.mode});
   }
   if (action.type === 'SELECT') {
-    console.log(action)
     return {...state, selected_content_id: action.id, mode: "READ"};
   }
   return state;

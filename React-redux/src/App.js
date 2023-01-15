@@ -1,7 +1,8 @@
 import React from 'react';
 import Header from './components/Header.jsx';
-import Nav from './redux/NavContainer';
-import Article from './redux/ArticleContainer';
+import Nav from './redux/NavContainer.jsx';
+import Article from './redux/ArticleContainer.jsx';
+import Control from './redux/ControlContainer.jsx';
 import './App.css';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <div className="App">
       <Header appData={appData} />
       <Nav />
+      <Control />
       <Article />
     </div>
   );
