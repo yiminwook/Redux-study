@@ -1,18 +1,36 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-const Nav = () => {
-  return (
-    <>
-      <nav>
-        <ol>
-          <li><Link>HTML</Link></li>
-          <li><Link>CSS</Link></li>
-          <li><Link>JavaScript</Link></li>
-        </ol>
-      </nav>
-    </>
-  )
+class Nav extends Component {
+  constructor(props){
+    super(props)
+    this.state = {}
+  }
+  render(){
+    const { contents } = this.props;
+    console.log("this.props", this.props);
+    // console.log(this.state)
+    return (
+      <>
+        <nav>
+          <ol>
+            {contents.map(el => {
+              return (
+                <li key={el.id}>
+                  <Link 
+                    onClick={function(){this.props.select(el.id)}.bind(this)} 
+                    to={`#${el.title}`}
+                  >
+                    {el.title}
+                  </Link>
+                </li>
+              )
+            })}
+          </ol>
+        </nav>
+      </>
+    )
+  }
 }
 
 export default Nav;
