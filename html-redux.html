@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./node_modules/redux/dist/redux.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div id="subject"></div>
+  <div id="toc"></div>
+  <div id="control"></div>
+  <div id="article"></div>
+  <script>
+
+    var store = Redux.createStore(
+      reducer, 
+      window.__REDUX_DEVTOOLS_EXTENSION__ && 
+      window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+
+    function reducer(state, action) {
+      if (state === undefined) {
+        return {
+          max_id: 2,
+          mode :'welcome',
+          selected_id: null,
+          contents: [
+            {id:1, title:'HTML', desc:'HTML is ...'},
+            {id:2, title:'CSS', desc:'CSS is ...'}
+          ],
+        };
+      }
+      if (action.type === "SELECT") {
+        return Object.assign({}, state, {mode: "read", selected_id: action.id});
+      }
+      if (action.type === "DELETE") {
+        const filteredContents = state.contents.filter(el => el.id !== state.selected_id);
+        return Object.assign({}, state, {selected_id: null, contents: filteredContents});
+      }
+      if (action.type === "CHANGE") {
+        let toggleMode = state.mode === 'read' ? 'create' : 'read';
+        return Object.assign({}, state, {mode: toggleMode});
+      }
+      if (action.type === "CREATE") {
+        const newMaxId = state.max_id + 1;
+        const addContent = {id: newMaxId , title: action.title, desc: action.desc};
+        return Object.assign({}, state, {
+          max_id: newMaxId,
+          contents: [...state.contents, addContent],
+          mode: 'read',
+        });
+      }
+    }
+
+    function subject() {
+      document.querySelector('#subject').innerHTML = `
+      <header>
+        <a onclick="window.location.reload()"><h1>WEB</h1></a>
+        Hello, WEB!
+      </header>
+      `
+    }
+
+    function toc() {
+      const state = store.getState();
+
+      const liTags = [...state.contents].reduce((acc, curr) => {
+        return acc + `
+                <li>
+                  <a onclick="
+                      event.preventDefault();
+                      store.dispatch({type: 'SELECT', id: ${curr.id}});
+                    " 
+                    href="${curr.id}.html">
+                    ${curr.title}
+                  </a>
+                </li>`;
+      }, "")
+      document.querySelector('#toc').innerHTML = `
+      <nav>
+        <ol>${liTags}</ol>
+      </nav>
+      `
+    }
+
+    function control() {
+      document.querySelector('#control').innerHTML = `
+      <ul>
+        <li>
+          <a onclick="
+            event.preventDefault();
+            store.dispatch({type: 'CHANGE'});
+            "
+            href="/create">
+            create
+          </a>
+        </li>
+        <li>
+          <input 
+            onclick="store.dispatch({type: 'DELETE'})" 
+            type="button" 
+            value="delete">
+        </li>
+      </ul>
+      `
+    }
+
+    function article() {
+      const { mode, selected_id, contents } = store.getState();
+      if (mode === 'welcome') {
+        document.querySelector('#article').innerHTML = `
+        <article>
+          <h2>Welcome</h2>
+          Hello, Redux!!
+        </article>
+        `
+      } else if (mode === 'create' || !selected_id) {
+        document.querySelector('#article').innerHTML = `
+        <article>
+          <form onsubmit="
+            event.preventDefault();
+            const title = this.title.value;
+            const desc = this.desc.value;
+            store.dispatch({type: 'CREATE', title, desc});
+          ">
+            <p><input type="text" name="title" placeholder="title"></p>
+            <p><textarea name="desc" placeholder="description"></textarea></p>
+            <p><input type="submit"></p>
+          </form>
+        </article>
+        `
+      } else if (mode === 'read' && selected_id) {
+        const selectedContent = contents.filter(el => el.id === selected_id)[0];
+        document.querySelector('#article').innerHTML = `
+        <article>
+          <h2>${selectedContent?.title}</h2>
+          ${selectedContent?.desc}
+        </article>
+        `
+      } 
+    }
+
+    subject();
+    toc();
+    control();
+    article();
+
+    store.subscribe(toc);
+    store.subscribe(article);
+    
+  </script>
+</body>
+</html>
