@@ -5,9 +5,9 @@ import Nav from './redux/NavContainer.jsx';
 import Control from './redux/ControlContainer.jsx';
 import Read from './redux/ReadContainer.jsx';
 import Create from './redux/CreateContainer.jsx';
-
+import Update from './redux/UpdateContainer';
 import './App.css';
-import { mapStateToProps } from './redux/connect.js';
+
 
 class App extends Component {
   constructor(props) {
@@ -17,21 +17,20 @@ class App extends Component {
     }
   }
   render() {
-    
-
     const Article = () => {
       const { mode } = this.props;
     
-      if (mode === "CREATE") return <Create />; 
+      if (mode === "CREATE") return <Create appData={this.state.appData} />;
+      if (mode === "UPDATE") return <Update appData={this.state.appData} />;
       else return <Read />;
     } 
 
     return (
       <div className="App">
         <Header appData={this.state.appData} />
-        <Nav />
-        <Control />
-        <Article />
+        <Nav appData={this.state.appData} />
+        <Control appData={this.state.appData} />
+        <Article appData={this.state.appData} />
       </div>
     );
   }

@@ -34,6 +34,13 @@ const reducer = (state=initState, action) => {
         max_id: newContentId,
         contents: [...state.contents, newContent]
       });
+      case 'UPDATE':
+        const {id, title, desc} = action;
+        const updatedContents = state.contents.map(el => {
+          if (el.id === +id) return { id: +id, title, desc };
+          else return el;
+        })
+        return Object.assign({}, state, {mode: "READ", contents: updatedContents});
     default:
       return state;
   }

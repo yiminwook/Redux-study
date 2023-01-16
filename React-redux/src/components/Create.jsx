@@ -7,7 +7,8 @@ class Create extends Component {
   }
 
   render() {
-    console.log(this.props)
+    this.props.appData.component = "Create";
+    
     return (
       <form onSubmit={(e) => {
         e.preventDefault();
