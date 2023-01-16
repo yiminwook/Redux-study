@@ -1,42 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
+import { createStore } from 'redux';
+import { Provider, useSelector, useDispatch, connect } from 'react-redux';
+
+function reducer(state={number: 1}, action) {
+  const newState = {...state}
+  switch(action.type) {
+    case "INCREMENT":
+      newState.number++;
+      return newState;
+  default:
+    return newState;
+  } 
+}
+
+const store = createStore(reducer);
 
 export default function App() {
-  const [number, setNumber] = useState(1);
 
   return (
-    <div id="container">
-      <h1>Root: {number}</h1>
-      <div id='grid'>
-        <Left1 number={number}></Left1> 
-        <Right1 
-          number={number} 
-          onIncrease={(n) => setNumber(number+n)}
-        ></Right1>
+    <Provider store={store}>
+      <div id="container">
+        <h1>Root</h1>
+        <div id='grid'>
+          <Left1></Left1> 
+          <Right1></Right1>
+        </div>
       </div>
-    </div>
+    </Provider>
   );
 }
 
-function Left1({ number }) {
+function Left1(props) {
   return (
     <div>
-      <h1>Left1: {number}</h1>
-      <Left2 number={number}></Left2>
+      <h1>Left1:</h1>
+      <Left2></Left2>
     </div>
   );
 }
 
-function Left2({ number }) {
+function Left2(props) {
   return (
     <div>
-      <h1>Left2: {number}</h1>
-      <Left3 number={number}></Left3>
+      <h1>Left2:</h1>
+      <Left3></Left3>
     </div>
   );
 }
 
-function Left3({ number }) {
+function Left3(props) {
+  const number = useSelector((state) => state.number);
   return (
     <div>
       <h1>Left3: {number}</h1>
@@ -44,34 +58,33 @@ function Left3({ number }) {
   );
 }
 
-function Right1({ number, onIncrease }) {
+function Right1(props) {
   return (
     <div>
-      <h1>Right1: {number}</h1>
-      <Right2 number={number} onIncrease={onIncrease}></Right2>
+      <h1>Right1:</h1>
+      <Right2></Right2>
     </div>
   );
 }
 
-function Right2({ number, onIncrease }) {
+function Right2(props) {
   return (
     <div>
-      <h1>Right2: {number}</h1>
-      <Right3 number={number} onIncrease={onIncrease}></Right3>
+      <h1>Right2:</h1>
+      <Right3></Right3>
     </div>
   );
 }
 
-function Right3({ number, onIncrease }) {
+function Right3() {
+  const dispatch = useDispatch();
   return (
     <div>
-      <h1>Right3: {number}</h1>
+      <h1>Right3:</h1>
       <input 
         type="button" 
-        onClick={() => {
-          onIncrease(1);
-        }} 
         value="+"
+        onClick={() => dispatch({type:"INCREMENT"})}
       ></input>
     </div>
   );
