@@ -7,7 +7,7 @@ var initState = {
     desc:'Hello, WEB'
   },
   max_content_id: 3,
-  selected_content_id: 1,
+  selected_content_id: null,
   contents: [
     {id: 1, title: 'HTML', desc: 'HTML is ...'},
     {id: 2, title: 'CSS', desc: 'CSS is ...'},
@@ -31,7 +31,7 @@ const reducer = (state=initState, action) => {
       return Object.assign({}, state, {
         mode: "READ",
         selected_content_id: newContentId,
-        max_id: newContentId,
+        max_content_id: newContentId,
         contents: [...state.contents, newContent]
       });
       case 'UPDATE':
@@ -39,8 +39,11 @@ const reducer = (state=initState, action) => {
         const updatedContents = state.contents.map(el => {
           if (el.id === +id) return { id: +id, title, desc };
           else return el;
-        })
+        });
         return Object.assign({}, state, {mode: "READ", contents: updatedContents});
+      case 'DELETE':  
+      const filteredContents = state.contents.filter(el => el.id !== action.id);
+        return Object.assign({}, state, {mode:"WELCOME", selected_content_id: null, contents: filteredContents});  
     default:
       return state;
   }

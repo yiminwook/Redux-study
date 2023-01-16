@@ -6,7 +6,6 @@ class Read extends Component {
     this.state = {};
   }
   render(){
-    // console.log(this.props)
     const { contents } = this.props;
     
     return (

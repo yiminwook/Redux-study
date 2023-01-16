@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 export default connect(
   function mapStateToProps(state, ownProps) {
-    if (state.mode === "WELCOME") {
+    if (state.mode === "WELCOME" || !state.selected_content_id) {
       const { title, desc } = state.welcome_content;
       return {...state, contents: {id: 0, title, desc}};
     } else {

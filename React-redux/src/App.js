@@ -13,15 +13,15 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state ={
-      appData: {"component": "App"}
+      appData: {"component": "App"},
     }
   }
   render() {
     const Article = () => {
-      const { mode } = this.props;
+      const { mode, selected_content_id } = this.props;
     
       if (mode === "CREATE") return <Create appData={this.state.appData} />;
-      if (mode === "UPDATE") return <Update appData={this.state.appData} />;
+      if (mode === "UPDATE" && selected_content_id) return <Update appData={this.state.appData} />;
       else return <Read />;
     } 
 
