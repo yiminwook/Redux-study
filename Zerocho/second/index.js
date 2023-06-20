@@ -1,6 +1,8 @@
-const { createStore } = require("redux");
+const { createStore, compose, applyMiddleware } = require("redux");
 const { addPost } = require("./actions/post");
 const { logIn, logOut } = require("./actions/user");
+const firstMiddlware = require("./middlewares/first");
+const thunkMiddeware = require("./middlewares/thunk");
 const reducer = require("./reducers");
 
 const initialState = {
@@ -16,8 +18,11 @@ const initialState = {
   followers: [],
 };
 
-const store = createStore(reducer, initialState);
+const enhancer = compose(applyMiddleware(firstMiddlware, thunkMiddeware));
+
+const store = createStore(reducer, initialState, enhancer);
 console.log(store.getState());
+console.log(store.subscribe(() => console.log("subscribe")));
 
 store.dispatch(logIn({ id: 1, name: "userName", admin: true }));
 store.dispatch(addPost({ id: 1, userId: 1, title: "hello" }));
