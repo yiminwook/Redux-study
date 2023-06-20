@@ -1,4 +1,4 @@
-import { logIn } from "@/redux/actions/user";
+import { logIn, logOut } from "@/redux/actions/user";
 import { useSelector, useDispatch } from "@/redux/store";
 
 const App = () => {
@@ -6,8 +6,12 @@ const App = () => {
 
   const userData = useSelector((state) => state.user);
 
-  const onClick = () => {
+  const onLogin = () => {
     dispatch(logIn({ data: 1 }));
+  };
+
+  const onLogOut = () => {
+    dispatch(logOut());
   };
 
   console.log(userData);
@@ -19,7 +23,11 @@ const App = () => {
   return (
     <div className="App">
       <h1>hello {userData ? userData.data?.name : ""}</h1>
-      <button onClick={onClick}>로그인</button>
+      {userData.data?.id ? (
+        <button onClick={onLogOut}>로그아웃</button>
+      ) : (
+        <button onClick={onLogin}>로그인</button>
+      )}
     </div>
   );
 };

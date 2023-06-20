@@ -13,10 +13,10 @@ import {
 //   };
 // };
 
-const logOut = (data: any): AnyAction => {
+const logOut = (): AnyAction => {
   return {
     type: LOG_OUT,
-    data,
+    // data,
   };
 };
 
