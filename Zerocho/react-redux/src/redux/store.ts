@@ -10,7 +10,7 @@ import { AnyAction } from "redux";
 const initialState: Record<string, any> = {
   user: {
     data: null,
-    isLoggin: false,
+    isLoggingIn: false, //loading
   },
   posts: [],
   comments: [],
