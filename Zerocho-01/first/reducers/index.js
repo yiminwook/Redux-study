@@ -1,11 +1,3 @@
-const { createStore } = require("redux");
-
-const initialState = {
-  compA: "a",
-  compB: 12,
-  compC: null,
-};
-
 const reducer = (prevState = initialState, action) => {
   switch (action.type) {
     case "CHANGE_COMP_A":
@@ -28,22 +20,4 @@ const reducer = (prevState = initialState, action) => {
   }
 };
 
-const store = createStore(reducer, initialState);
-
-console.log(1, store.getState());
-
-store.subscribe(() => {
-  console.log("changed");
-});
-
-//action
-const changeCompA = (data) => {
-  return {
-    type: "CHANGE_COMP_A",
-    data,
-  };
-};
-
-store.dispatch(changeCompA("b"));
-
-console.log(2, store.getState());
+module.exports = reducer;
