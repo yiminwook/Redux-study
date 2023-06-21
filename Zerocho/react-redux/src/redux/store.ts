@@ -20,10 +20,10 @@ const initialState: Record<string, any> = {
   followers: [],
 };
 
-const enhancer = compose(
-  applyMiddleware(firstMiddlware, thunkMiddeware),
-  composeWithDevTools()
-);
+const enhancer =
+  process.env.NODE_ENV === "development"
+    ? composeWithDevTools(applyMiddleware(firstMiddlware, thunkMiddeware))
+    : compose(applyMiddleware(firstMiddlware, thunkMiddeware));
 
 const store = createStore(reducer, initialState, enhancer);
 
