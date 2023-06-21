@@ -14,8 +14,6 @@ const App = () => {
     dispatch(logOut());
   };
 
-  console.log(userData);
-
   if (userData?.isLoggingIn) {
     return <div>로딩중...</div>;
   }

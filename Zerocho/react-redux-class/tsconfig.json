@@ -19,9 +19,9 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "../react-redux-class/src/Appcopy.tsx",
-    "../react-redux-class/src/redux/store copy.ts",
-    "../react-redux-class/src/App copy.tsx"
+    "../react-redux/src/Appcopy.tsx",
+    "../react-redux/src/redux/store.ts",
+    "../react-redux/src/redux/App.tsx"
   ],
   "extends": "./tsconfig.paths.json"
 }
