@@ -1,3 +1,5 @@
+import { produce } from "immer";
+
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST";
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS";
 export const LOG_IN_FAILURE = "LOG_IN_FAILURE";
@@ -12,18 +14,28 @@ const userReducer = (
   prevState = initialState,
   action: { type: string; data: any; isLoggingIn: boolean }
 ): typeof initialState => {
-  switch (action.type) {
-    case LOG_IN_REQUEST:
-      return { ...prevState, data: action.data, isLoggingIn: true };
-    case LOG_IN_SUCCESS:
-      return { ...prevState, data: action.data, isLoggingIn: false };
-    case LOG_IN_FAILURE:
-      return { ...prevState, data: null, isLoggingIn: false };
-    case LOG_OUT:
-      return { ...prevState, data: null, isLoggingIn: false };
-    default:
-      return prevState;
-  }
+  return produce(prevState, (draft) => {
+    switch (action.type) {
+      case LOG_IN_REQUEST:
+        draft.data = action.data;
+        draft.isLoggingIn = true;
+        break;
+      case LOG_IN_SUCCESS:
+        draft.data = action.data;
+        draft.isLoggingIn = false;
+        break;
+      case LOG_IN_FAILURE:
+        draft.data = null;
+        draft.isLoggingIn = false;
+        break;
+      case LOG_OUT:
+        draft.data = null;
+        draft.isLoggingIn = false;
+        break;
+      default:
+        break;
+    }
+  });
 };
 
 export default userReducer;

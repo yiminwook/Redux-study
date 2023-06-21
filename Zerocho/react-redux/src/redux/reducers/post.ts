@@ -1,16 +1,20 @@
+import { produce } from "immer";
+
 const initialState: any[] = [];
 
 const postReducer = (
   prevState = initialState,
   action: { type: string; data: any[] }
 ) => {
-  switch (action.type) {
-    case "ADD_POST":
-      // prevState.posts.push(action.data);
-      return [...prevState, action.data];
-    default:
-      return prevState;
-  }
+  return produce(prevState, (draft) => {
+    switch (action.type) {
+      case "ADD_POST":
+        draft.push(action.data);
+        break;
+      default:
+        break;
+    }
+  });
 };
 
 export default postReducer;
