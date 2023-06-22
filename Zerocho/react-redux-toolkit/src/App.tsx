@@ -1,5 +1,6 @@
-import { logIn, logOut } from "@/redux/actions/user";
-import { useSelector, useDispatch } from "@/redux/store";
+import userSlice from "@/redux/reducers/user";
+import { logIn } from "@/redux/actions/user";
+import { useDispatch, useSelector } from "@/redux/store";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -7,11 +8,11 @@ const App = () => {
   const userData = useSelector((state) => state.user);
 
   const onLogin = () => {
-    dispatch(logIn({ data: 1 }));
+    dispatch(logIn({ id: 1, name: "name" }));
   };
 
   const onLogOut = () => {
-    dispatch(logOut());
+    dispatch(userSlice.actions.logOut());
   };
 
   if (userData?.isLoggingIn) {
