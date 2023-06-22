@@ -6,11 +6,21 @@ import { useDispatch, useSelector } from "@/redux/store";
 const App = () => {
   const dispatch = useDispatch();
 
-  const userData = useSelector((state) => state.user);
+  const userData = useSelector((state) => state.user.data);
+  const isLoggingIn = useSelector((state) => state.user.isLoggingIn);
   const postData = useSelector((state) => state.posts.data) as {
     title: string;
     desc: string;
   }[];
+
+  // createSelector
+  // const priceSelector = (state) => state.user.prices;
+  // 매번 새로운 createSelector를 만들어야 한다.
+  // const makeSumPriceSelector = () => createSelector(priceSelector, (prices) =>
+  //   prices.reduce((a, c) => a + c, [])
+  // );
+  // const sumPriceSelector = makeSumPriceSelector();
+  // const totalPrice = useSelector(sumPriceSelector);
 
   const onLogin = () => {
     dispatch(logIn({ id: 1, name: "name" }));
@@ -24,7 +34,7 @@ const App = () => {
     dispatch(addPost({ title: "title", desc: "desc" }));
   };
 
-  if (userData?.isLoggingIn) {
+  if (isLoggingIn) {
     return <div>로딩중...</div>;
   }
 
