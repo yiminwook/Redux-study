@@ -16,16 +16,28 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(logIn.pending, (state, action) => {
-      state.isLoggingIn = true;
-    });
     builder.addCase(logIn.fulfilled, (state, action) => {
       state.isLoggingIn = false;
       state.data = action.payload;
     });
-    builder.addCase(logIn.rejected, (state, action) => {
-      state.isLoggingIn = false;
-    });
+    builder.addMatcher(
+      (action) => {
+        return action.type.includes("/pending") === true;
+      },
+      (state) => {
+        state.isLoggingIn = true;
+      }
+    );
+    builder.addMatcher(
+      (action) => {
+        return action.type.includes("/rejected") === true;
+      },
+      (state) => {
+        state.data = { name: "error" };
+        state.isLoggingIn = false;
+      }
+    );
+    builder.addDefaultCase((state, action) => {});
   },
 });
 
