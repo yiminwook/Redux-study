@@ -1,7 +1,8 @@
 import firstMiddlware from "@/redux/middlewares/first";
 import thunkMiddeware from "@/redux/middlewares/thunk";
 import reducer from "@/redux/reducers";
-import { configureStore } from "@reduxjs/toolkit";
+import { AnyAction, configureStore, ThunkDispatch } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const initialState: Record<string, any> = {
   user: {
@@ -23,4 +24,10 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
 });
 
+const useStoreDispatch = () =>
+  useDispatch<ThunkDispatch<typeof initialState, unknown, AnyAction>>();
+
+const useStoreSelector: TypedUseSelectorHook<typeof initialState> = useSelector;
+
 export default store;
+export { useStoreDispatch as useDispatch, useStoreSelector as useSelector };
