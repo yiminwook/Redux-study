@@ -1,59 +1,16 @@
-import { AnyAction, Dispatch } from "redux";
-import {
-  LOG_IN_FAILURE,
-  LOG_IN_REQUEST,
-  LOG_IN_SUCCESS,
-  LOG_OUT,
-} from "@/redux/reducers/user";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-// const logIn = (data) => {
-//   return {
-//     type: "LOG_IN",
-//     data,
-//   };
-// };
+const delay = <T>(time: number, value: T): Promise<{ data: T }> =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ data: value });
+    }, time);
+  });
 
-const logOut = (): AnyAction => {
-  return {
-    type: LOG_OUT,
-    // data,
-  };
-};
+const logIn = createAsyncThunk("user/logIn", async (data: any, thunkApi) => {
+  const response = await delay(500, data);
 
-//비동기
-const logIn = (data: any) => {
-  return (dispatch: Dispatch<AnyAction>, getState: any) => {
-    dispatch(logInRequest(data));
-    try {
-      setTimeout(() => {
-        dispatch(logInSuccess({ id: 1, name: "userName", admin: true }));
-      }, 2000);
-      // return;
-    } catch (error) {
-      dispatch(logInFailure(error));
-    }
-  };
-};
+  return response.data;
+});
 
-const logInRequest = (data: any): AnyAction => {
-  return {
-    type: LOG_IN_REQUEST,
-    data,
-  };
-};
-
-const logInSuccess = (data: any): AnyAction => {
-  return {
-    type: LOG_IN_SUCCESS,
-    data,
-  };
-};
-
-const logInFailure = (error: unknown) => {
-  return {
-    type: LOG_IN_FAILURE,
-    error,
-  };
-};
-
-export { logIn, logOut };
+export { logIn };
