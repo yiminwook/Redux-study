@@ -16,12 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "../react-redux-class/src/Appcopy.tsx",
-    "../react-redux-class/src/redux/store copy.ts",
-    "../react-redux-class/src/App copy.tsx"
-  ],
+  "include": ["**/*.ts", "**/*.tsx"],
   "extends": "./tsconfig.paths.json"
 }
