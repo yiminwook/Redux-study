@@ -5,6 +5,7 @@ import {
   LOG_IN_SUCCESS,
   LOG_OUT,
 } from "@/redux/reducers/user";
+import { addPost } from "@/redux/actions/post";
 
 // const logIn = (data) => {
 //   return {
@@ -27,13 +28,22 @@ const logIn = (data: any) => {
     try {
       setTimeout(() => {
         dispatch(logInSuccess({ id: 1, name: "userName", admin: true }));
+
+        //다른 state도 같이 변경하려면 비동기 action으로 만들어야 한다.
+        dispatch(addPost({ id: 1, title: "title", desc: "desc" }));
       }, 2000);
-      // return;
     } catch (error) {
       dispatch(logInFailure(error));
     }
   };
 };
+
+// const ChangeBoth = () => {
+//   return (dispatch, getState) => {
+//     dispatch(changeUserStore());
+//     dispatch(changePostStore());
+//   };
+// };
 
 const logInRequest = (data: any): AnyAction => {
   return {
