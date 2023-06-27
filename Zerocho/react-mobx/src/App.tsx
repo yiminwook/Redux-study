@@ -1,19 +1,28 @@
-import { useObserver, useLocalStore } from "mobx-react";
+import {
+  useObserver,
+  useLocalStore,
+  useLocalObservable,
+  observer,
+} from "mobx-react";
 import { ChangeEvent, useEffect } from "react";
 import { postStore, userStore } from "@/mobx/store";
 import { useStore } from "@/Context";
+import { action, runInAction } from "mobx";
 
 const App = () => {
   const { userStore: userContext, postStore: postContext } = useStore();
-  console.log(userContext.data, postContext.data);
-  const state = useLocalStore(() => ({
+
+  // useLocalStore === useLocalObaservable
+  const state = useLocalObservable(() => ({
     name: "",
     password: "",
-    onChangeName(e: ChangeEvent<HTMLInputElement>) {
-      this.name = e.target.value;
-    },
+    onChangeName: action((e: ChangeEvent<HTMLInputElement>) => {
+      state.name = e.target.value;
+    }),
     onChangePassword(e: ChangeEvent<HTMLInputElement>) {
-      this.password = e.target.value;
+      runInAction(() => {
+        this.password = e.target.value;
+      });
     },
   }));
 
@@ -36,7 +45,8 @@ const App = () => {
     });
   }, []);
 
-  return useObserver(() => (
+  //더이상 useObserver로 감싸지 않음
+  return (
     <div className="App">
       {userStore.isLogginIn ? (
         <div>로그인 중</div>
@@ -77,7 +87,7 @@ const App = () => {
         <button id="test">테스트</button>
       </div>
     </div>
-  ));
+  );
 };
 
-export default App;
+export default observer(App);
